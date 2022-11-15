@@ -27132,7 +27132,7 @@ function App() {
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                for: "scale-input",
+                htmlFor: "scale-input",
                 children: "Font scaling"
             }, void 0, false, {
                 fileName: "src/App.jsx",
@@ -27218,25 +27218,44 @@ function App() {
                         lineNumber: 33,
                         columnNumber: 13
                     }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                        children: [
+                            'Here, "x" should be maroon, and "15" should be teal:',
+                            " ",
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _math.Math), {
+                                inline: true,
+                                tex: "\\maroonD x = {\\color{teal} 15}"
+                            }, void 0, false, {
+                                fileName: "src/App.jsx",
+                                lineNumber: 36,
+                                columnNumber: 22
+                            }, this),
+                            "."
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/App.jsx",
+                        lineNumber: 34,
+                        columnNumber: 13
+                    }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _math.Math), {
                         tex: "x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}"
                     }, void 0, false, {
                         fileName: "src/App.jsx",
-                        lineNumber: 34,
+                        lineNumber: 38,
                         columnNumber: 13
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _math.Math), {
                         tex: `${ticks} \\times 1000`
                     }, void 0, false, {
                         fileName: "src/App.jsx",
-                        lineNumber: 35,
+                        lineNumber: 39,
                         columnNumber: 13
                     }, this),
                     shown && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _math.Math), {
                         tex: "2 + 2 = 4"
                     }, void 0, false, {
                         fileName: "src/App.jsx",
-                        lineNumber: 36,
+                        lineNumber: 40,
                         columnNumber: 23
                     }, this)
                 ]
@@ -27335,13 +27354,38 @@ var _svg = require("mathjax-full/js/output/svg");
 var _browserAdaptor = require("mathjax-full/js/adaptors/browserAdaptor");
 var _html = require("mathjax-full/js/handlers/html");
 var _assistiveMml = require("mathjax-full/js/a11y/assistive-mml");
+var _colorConfiguration = require("mathjax-full/js/input/tex/color/ColorConfiguration");
+var _configMacrosConfiguration = require("mathjax-full/js/input/tex/configmacros/ConfigMacrosConfiguration");
 (0, _assistiveMml.AssistiveMmlHandler)((0, _html.RegisterHTMLHandler)((0, _browserAdaptor.browserAdaptor)()));
 const svgFromTex = (0, _mathjax.mathjax).document("", {
-    InputJax: new (0, _tex.TeX)({}),
+    InputJax: new (0, _tex.TeX)({
+        packages: [
+            "base",
+            // NOTE: Using the `color` package requires importing
+            // mathjax-full/js/input/tex/color/ColorConfiguration first!
+            "color",
+            // NOTE: Using the `configmacros` option requires importing
+            // mathjax-full/js/input/tex/configmacros/ConfigMacrosConfiguration
+            // first!
+            "configmacros"
+        ],
+        // NOTE: Using the `macros` option requires specifying the
+        // "configmacros" package in `packages`, above!
+        macros: {
+            maroonD: [
+                "{\\color{maroon} #1}",
+                1
+            ]
+        },
+        formatError (jax, err) {
+            console.error("Error parsing TeX", jax, err);
+            return jax.formatError(err);
+        }
+    }),
     OutputJax: new (0, _svg.SVG)({})
 });
 
-},{"mathjax-full/js/mathjax":"6tc3t","mathjax-full/js/input/tex":"hquxj","mathjax-full/js/output/svg":"gMzbn","mathjax-full/js/adaptors/browserAdaptor":"dmvkS","mathjax-full/js/handlers/html":"gAKQY","mathjax-full/js/a11y/assistive-mml":"iFRoJ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6tc3t":[function(require,module,exports) {
+},{"mathjax-full/js/mathjax":"6tc3t","mathjax-full/js/input/tex":"hquxj","mathjax-full/js/output/svg":"gMzbn","mathjax-full/js/adaptors/browserAdaptor":"dmvkS","mathjax-full/js/handlers/html":"gAKQY","mathjax-full/js/a11y/assistive-mml":"iFRoJ","mathjax-full/js/input/tex/color/ColorConfiguration":"g5hfx","mathjax-full/js/input/tex/configmacros/ConfigMacrosConfiguration":"9JxkO","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6tc3t":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -75883,7 +75927,1032 @@ var AbstractVisitor = function() {
 }();
 exports.AbstractVisitor = AbstractVisitor;
 
-},{"./Node.js":"9HnmE"}],"gkKU3":[function(require,module,exports) {
+},{"./Node.js":"9HnmE"}],"g5hfx":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ColorConfiguration = void 0;
+var SymbolMap_js_1 = require("../SymbolMap.js");
+var Configuration_js_1 = require("../Configuration.js");
+var ColorMethods_js_1 = require("./ColorMethods.js");
+var ColorUtil_js_1 = require("./ColorUtil.js");
+new SymbolMap_js_1.CommandMap("color", {
+    color: "Color",
+    textcolor: "TextColor",
+    definecolor: "DefineColor",
+    colorbox: "ColorBox",
+    fcolorbox: "FColorBox"
+}, ColorMethods_js_1.ColorMethods);
+var config = function(_config, jax) {
+    jax.parseOptions.packageData.set("color", {
+        model: new ColorUtil_js_1.ColorModel()
+    });
+};
+exports.ColorConfiguration = Configuration_js_1.Configuration.create("color", {
+    handler: {
+        macro: [
+            "color"
+        ]
+    },
+    options: {
+        color: {
+            padding: "5px",
+            borderWidth: "2px"
+        }
+    },
+    config: config
+});
+
+},{"../SymbolMap.js":"2S67E","../Configuration.js":"coQmT","./ColorMethods.js":"dB1lv","./ColorUtil.js":"7z0na"}],"dB1lv":[function(require,module,exports) {
+"use strict";
+var __importDefault = this && this.__importDefault || function(mod) {
+    return mod && mod.__esModule ? mod : {
+        "default": mod
+    };
+};
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ColorMethods = void 0;
+var NodeUtil_js_1 = __importDefault(require("../NodeUtil.js"));
+var ParseUtil_js_1 = __importDefault(require("../ParseUtil.js"));
+function padding(colorPadding) {
+    var pad = "+".concat(colorPadding);
+    var unit = colorPadding.replace(/^.*?([a-z]*)$/, "$1");
+    var pad2 = 2 * parseFloat(pad);
+    return {
+        width: "+".concat(pad2).concat(unit),
+        height: pad,
+        depth: pad,
+        lspace: colorPadding
+    };
+}
+exports.ColorMethods = {};
+exports.ColorMethods.Color = function(parser, name) {
+    var model = parser.GetBrackets(name, "");
+    var colorDef = parser.GetArgument(name);
+    var colorModel = parser.configuration.packageData.get("color").model;
+    var color = colorModel.getColor(model, colorDef);
+    var style = parser.itemFactory.create("style").setProperties({
+        styles: {
+            mathcolor: color
+        }
+    });
+    parser.stack.env["color"] = color;
+    parser.Push(style);
+};
+exports.ColorMethods.TextColor = function(parser, name) {
+    var model = parser.GetBrackets(name, "");
+    var colorDef = parser.GetArgument(name);
+    var colorModel = parser.configuration.packageData.get("color").model;
+    var color = colorModel.getColor(model, colorDef);
+    var old = parser.stack.env["color"];
+    parser.stack.env["color"] = color;
+    var math = parser.ParseArg(name);
+    if (old) parser.stack.env["color"] = old;
+    else delete parser.stack.env["color"];
+    var node = parser.create("node", "mstyle", [
+        math
+    ], {
+        mathcolor: color
+    });
+    parser.Push(node);
+};
+exports.ColorMethods.DefineColor = function(parser, name) {
+    var cname = parser.GetArgument(name);
+    var model = parser.GetArgument(name);
+    var def = parser.GetArgument(name);
+    var colorModel = parser.configuration.packageData.get("color").model;
+    colorModel.defineColor(model, cname, def);
+};
+exports.ColorMethods.ColorBox = function(parser, name) {
+    var cname = parser.GetArgument(name);
+    var math = ParseUtil_js_1.default.internalMath(parser, parser.GetArgument(name));
+    var colorModel = parser.configuration.packageData.get("color").model;
+    var node = parser.create("node", "mpadded", math, {
+        mathbackground: colorModel.getColor("named", cname)
+    });
+    NodeUtil_js_1.default.setProperties(node, padding(parser.options.color.padding));
+    parser.Push(node);
+};
+exports.ColorMethods.FColorBox = function(parser, name) {
+    var fname = parser.GetArgument(name);
+    var cname = parser.GetArgument(name);
+    var math = ParseUtil_js_1.default.internalMath(parser, parser.GetArgument(name));
+    var options = parser.options.color;
+    var colorModel = parser.configuration.packageData.get("color").model;
+    var node = parser.create("node", "mpadded", math, {
+        mathbackground: colorModel.getColor("named", cname),
+        style: "border: ".concat(options.borderWidth, " solid ").concat(colorModel.getColor("named", fname))
+    });
+    NodeUtil_js_1.default.setProperties(node, padding(options.padding));
+    parser.Push(node);
+};
+
+},{"../NodeUtil.js":"fDDTh","../ParseUtil.js":"7wSJr"}],"7z0na":[function(require,module,exports) {
+"use strict";
+var __values = this && this.__values || function(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function() {
+            if (o && i >= o.length) o = void 0;
+            return {
+                value: o && o[i++],
+                done: !o
+            };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
+var __importDefault = this && this.__importDefault || function(mod) {
+    return mod && mod.__esModule ? mod : {
+        "default": mod
+    };
+};
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ColorModel = void 0;
+var TexError_js_1 = __importDefault(require("../TexError.js"));
+var ColorConstants_js_1 = require("./ColorConstants.js");
+var ColorModelProcessors = new Map();
+var ColorModel = function() {
+    function ColorModel() {
+        this.userColors = new Map();
+    }
+    ColorModel.prototype.normalizeColor = function(model, def) {
+        if (!model || model === "named") return def;
+        if (ColorModelProcessors.has(model)) {
+            var modelProcessor = ColorModelProcessors.get(model);
+            return modelProcessor(def);
+        }
+        throw new TexError_js_1.default("UndefinedColorModel", "Color model '%1' not defined", model);
+    };
+    ColorModel.prototype.getColor = function(model, def) {
+        if (!model || model === "named") return this.getColorByName(def);
+        return this.normalizeColor(model, def);
+    };
+    ColorModel.prototype.getColorByName = function(name) {
+        if (this.userColors.has(name)) return this.userColors.get(name);
+        if (ColorConstants_js_1.COLORS.has(name)) return ColorConstants_js_1.COLORS.get(name);
+        return name;
+    };
+    ColorModel.prototype.defineColor = function(model, name, def) {
+        var normalized = this.normalizeColor(model, def);
+        this.userColors.set(name, normalized);
+    };
+    return ColorModel;
+}();
+exports.ColorModel = ColorModel;
+ColorModelProcessors.set("rgb", function(rgb) {
+    var e_1, _a;
+    var rgbParts = rgb.trim().split(/\s*,\s*/);
+    var RGB = "#";
+    if (rgbParts.length !== 3) throw new TexError_js_1.default("ModelArg1", "Color values for the %1 model require 3 numbers", "rgb");
+    try {
+        for(var rgbParts_1 = __values(rgbParts), rgbParts_1_1 = rgbParts_1.next(); !rgbParts_1_1.done; rgbParts_1_1 = rgbParts_1.next()){
+            var rgbPart = rgbParts_1_1.value;
+            if (!rgbPart.match(/^(\d+(\.\d*)?|\.\d+)$/)) throw new TexError_js_1.default("InvalidDecimalNumber", "Invalid decimal number");
+            var n = parseFloat(rgbPart);
+            if (n < 0 || n > 1) throw new TexError_js_1.default("ModelArg2", "Color values for the %1 model must be between %2 and %3", "rgb", "0", "1");
+            var pn = Math.floor(n * 255).toString(16);
+            if (pn.length < 2) pn = "0" + pn;
+            RGB += pn;
+        }
+    } catch (e_1_1) {
+        e_1 = {
+            error: e_1_1
+        };
+    } finally{
+        try {
+            if (rgbParts_1_1 && !rgbParts_1_1.done && (_a = rgbParts_1.return)) _a.call(rgbParts_1);
+        } finally{
+            if (e_1) throw e_1.error;
+        }
+    }
+    return RGB;
+});
+ColorModelProcessors.set("RGB", function(rgb) {
+    var e_2, _a;
+    var rgbParts = rgb.trim().split(/\s*,\s*/);
+    var RGB = "#";
+    if (rgbParts.length !== 3) throw new TexError_js_1.default("ModelArg1", "Color values for the %1 model require 3 numbers", "RGB");
+    try {
+        for(var rgbParts_2 = __values(rgbParts), rgbParts_2_1 = rgbParts_2.next(); !rgbParts_2_1.done; rgbParts_2_1 = rgbParts_2.next()){
+            var rgbPart = rgbParts_2_1.value;
+            if (!rgbPart.match(/^\d+$/)) throw new TexError_js_1.default("InvalidNumber", "Invalid number");
+            var n = parseInt(rgbPart);
+            if (n > 255) throw new TexError_js_1.default("ModelArg2", "Color values for the %1 model must be between %2 and %3", "RGB", "0", "255");
+            var pn = n.toString(16);
+            if (pn.length < 2) pn = "0" + pn;
+            RGB += pn;
+        }
+    } catch (e_2_1) {
+        e_2 = {
+            error: e_2_1
+        };
+    } finally{
+        try {
+            if (rgbParts_2_1 && !rgbParts_2_1.done && (_a = rgbParts_2.return)) _a.call(rgbParts_2);
+        } finally{
+            if (e_2) throw e_2.error;
+        }
+    }
+    return RGB;
+});
+ColorModelProcessors.set("gray", function(gray) {
+    if (!gray.match(/^\s*(\d+(\.\d*)?|\.\d+)\s*$/)) throw new TexError_js_1.default("InvalidDecimalNumber", "Invalid decimal number");
+    var n = parseFloat(gray);
+    if (n < 0 || n > 1) throw new TexError_js_1.default("ModelArg2", "Color values for the %1 model must be between %2 and %3", "gray", "0", "1");
+    var pn = Math.floor(n * 255).toString(16);
+    if (pn.length < 2) pn = "0" + pn;
+    return "#".concat(pn).concat(pn).concat(pn);
+});
+
+},{"../TexError.js":"dJJ80","./ColorConstants.js":"dodYV"}],"dodYV":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.COLORS = void 0;
+exports.COLORS = new Map([
+    [
+        "Apricot",
+        "#FBB982"
+    ],
+    [
+        "Aquamarine",
+        "#00B5BE"
+    ],
+    [
+        "Bittersweet",
+        "#C04F17"
+    ],
+    [
+        "Black",
+        "#221E1F"
+    ],
+    [
+        "Blue",
+        "#2D2F92"
+    ],
+    [
+        "BlueGreen",
+        "#00B3B8"
+    ],
+    [
+        "BlueViolet",
+        "#473992"
+    ],
+    [
+        "BrickRed",
+        "#B6321C"
+    ],
+    [
+        "Brown",
+        "#792500"
+    ],
+    [
+        "BurntOrange",
+        "#F7921D"
+    ],
+    [
+        "CadetBlue",
+        "#74729A"
+    ],
+    [
+        "CarnationPink",
+        "#F282B4"
+    ],
+    [
+        "Cerulean",
+        "#00A2E3"
+    ],
+    [
+        "CornflowerBlue",
+        "#41B0E4"
+    ],
+    [
+        "Cyan",
+        "#00AEEF"
+    ],
+    [
+        "Dandelion",
+        "#FDBC42"
+    ],
+    [
+        "DarkOrchid",
+        "#A4538A"
+    ],
+    [
+        "Emerald",
+        "#00A99D"
+    ],
+    [
+        "ForestGreen",
+        "#009B55"
+    ],
+    [
+        "Fuchsia",
+        "#8C368C"
+    ],
+    [
+        "Goldenrod",
+        "#FFDF42"
+    ],
+    [
+        "Gray",
+        "#949698"
+    ],
+    [
+        "Green",
+        "#00A64F"
+    ],
+    [
+        "GreenYellow",
+        "#DFE674"
+    ],
+    [
+        "JungleGreen",
+        "#00A99A"
+    ],
+    [
+        "Lavender",
+        "#F49EC4"
+    ],
+    [
+        "LimeGreen",
+        "#8DC73E"
+    ],
+    [
+        "Magenta",
+        "#EC008C"
+    ],
+    [
+        "Mahogany",
+        "#A9341F"
+    ],
+    [
+        "Maroon",
+        "#AF3235"
+    ],
+    [
+        "Melon",
+        "#F89E7B"
+    ],
+    [
+        "MidnightBlue",
+        "#006795"
+    ],
+    [
+        "Mulberry",
+        "#A93C93"
+    ],
+    [
+        "NavyBlue",
+        "#006EB8"
+    ],
+    [
+        "OliveGreen",
+        "#3C8031"
+    ],
+    [
+        "Orange",
+        "#F58137"
+    ],
+    [
+        "OrangeRed",
+        "#ED135A"
+    ],
+    [
+        "Orchid",
+        "#AF72B0"
+    ],
+    [
+        "Peach",
+        "#F7965A"
+    ],
+    [
+        "Periwinkle",
+        "#7977B8"
+    ],
+    [
+        "PineGreen",
+        "#008B72"
+    ],
+    [
+        "Plum",
+        "#92268F"
+    ],
+    [
+        "ProcessBlue",
+        "#00B0F0"
+    ],
+    [
+        "Purple",
+        "#99479B"
+    ],
+    [
+        "RawSienna",
+        "#974006"
+    ],
+    [
+        "Red",
+        "#ED1B23"
+    ],
+    [
+        "RedOrange",
+        "#F26035"
+    ],
+    [
+        "RedViolet",
+        "#A1246B"
+    ],
+    [
+        "Rhodamine",
+        "#EF559F"
+    ],
+    [
+        "RoyalBlue",
+        "#0071BC"
+    ],
+    [
+        "RoyalPurple",
+        "#613F99"
+    ],
+    [
+        "RubineRed",
+        "#ED017D"
+    ],
+    [
+        "Salmon",
+        "#F69289"
+    ],
+    [
+        "SeaGreen",
+        "#3FBC9D"
+    ],
+    [
+        "Sepia",
+        "#671800"
+    ],
+    [
+        "SkyBlue",
+        "#46C5DD"
+    ],
+    [
+        "SpringGreen",
+        "#C6DC67"
+    ],
+    [
+        "Tan",
+        "#DA9D76"
+    ],
+    [
+        "TealBlue",
+        "#00AEB3"
+    ],
+    [
+        "Thistle",
+        "#D883B7"
+    ],
+    [
+        "Turquoise",
+        "#00B4CE"
+    ],
+    [
+        "Violet",
+        "#58429B"
+    ],
+    [
+        "VioletRed",
+        "#EF58A0"
+    ],
+    [
+        "White",
+        "#FFFFFF"
+    ],
+    [
+        "WildStrawberry",
+        "#EE2967"
+    ],
+    [
+        "Yellow",
+        "#FFF200"
+    ],
+    [
+        "YellowGreen",
+        "#98CC70"
+    ],
+    [
+        "YellowOrange",
+        "#FAA21A"
+    ]
+]);
+
+},{}],"9JxkO":[function(require,module,exports) {
+"use strict";
+var __values = this && this.__values || function(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function() {
+            if (o && i >= o.length) o = void 0;
+            return {
+                value: o && o[i++],
+                done: !o
+            };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
+var __importDefault = this && this.__importDefault || function(mod) {
+    return mod && mod.__esModule ? mod : {
+        "default": mod
+    };
+};
+var _a;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ConfigMacrosConfiguration = void 0;
+var Configuration_js_1 = require("../Configuration.js");
+var Options_js_1 = require("../../../util/Options.js");
+var SymbolMap_js_1 = require("../SymbolMap.js");
+var ParseMethods_js_1 = __importDefault(require("../ParseMethods.js"));
+var Symbol_js_1 = require("../Symbol.js");
+var NewcommandMethods_js_1 = __importDefault(require("../newcommand/NewcommandMethods.js"));
+var NewcommandItems_js_1 = require("../newcommand/NewcommandItems.js");
+var MACROSMAP = "configmacros-map";
+var ENVIRONMENTMAP = "configmacros-env-map";
+function configmacrosInit(config) {
+    new SymbolMap_js_1.CommandMap(MACROSMAP, {}, {});
+    new SymbolMap_js_1.EnvironmentMap(ENVIRONMENTMAP, ParseMethods_js_1.default.environment, {}, {});
+    config.append(Configuration_js_1.Configuration.local({
+        handler: {
+            macro: [
+                MACROSMAP
+            ],
+            environment: [
+                ENVIRONMENTMAP
+            ]
+        },
+        priority: 3
+    }));
+}
+function configmacrosConfig(_config, jax) {
+    configMacros(jax);
+    configEnvironments(jax);
+}
+function configMacros(jax) {
+    var e_1, _a;
+    var handler = jax.parseOptions.handlers.retrieve(MACROSMAP);
+    var macros = jax.parseOptions.options.macros;
+    try {
+        for(var _b = __values(Object.keys(macros)), _c = _b.next(); !_c.done; _c = _b.next()){
+            var cs = _c.value;
+            var def = typeof macros[cs] === "string" ? [
+                macros[cs]
+            ] : macros[cs];
+            var macro = Array.isArray(def[2]) ? new Symbol_js_1.Macro(cs, NewcommandMethods_js_1.default.MacroWithTemplate, def.slice(0, 2).concat(def[2])) : new Symbol_js_1.Macro(cs, NewcommandMethods_js_1.default.Macro, def);
+            handler.add(cs, macro);
+        }
+    } catch (e_1_1) {
+        e_1 = {
+            error: e_1_1
+        };
+    } finally{
+        try {
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        } finally{
+            if (e_1) throw e_1.error;
+        }
+    }
+}
+function configEnvironments(jax) {
+    var e_2, _a;
+    var handler = jax.parseOptions.handlers.retrieve(ENVIRONMENTMAP);
+    var environments = jax.parseOptions.options.environments;
+    try {
+        for(var _b = __values(Object.keys(environments)), _c = _b.next(); !_c.done; _c = _b.next()){
+            var env = _c.value;
+            handler.add(env, new Symbol_js_1.Macro(env, NewcommandMethods_js_1.default.BeginEnv, [
+                true
+            ].concat(environments[env])));
+        }
+    } catch (e_2_1) {
+        e_2 = {
+            error: e_2_1
+        };
+    } finally{
+        try {
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+        } finally{
+            if (e_2) throw e_2.error;
+        }
+    }
+}
+exports.ConfigMacrosConfiguration = Configuration_js_1.Configuration.create("configmacros", {
+    init: configmacrosInit,
+    config: configmacrosConfig,
+    items: (_a = {}, _a[NewcommandItems_js_1.BeginEnvItem.prototype.kind] = NewcommandItems_js_1.BeginEnvItem, _a),
+    options: {
+        macros: (0, Options_js_1.expandable)({}),
+        environments: (0, Options_js_1.expandable)({})
+    }
+});
+
+},{"../Configuration.js":"coQmT","../../../util/Options.js":"9Gakm","../SymbolMap.js":"2S67E","../ParseMethods.js":"jSigL","../Symbol.js":"jX1CW","../newcommand/NewcommandMethods.js":"ddAup","../newcommand/NewcommandItems.js":"5DpMI"}],"ddAup":[function(require,module,exports) {
+"use strict";
+var __createBinding = this && this.__createBinding || (Object.create ? function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) desc = {
+        enumerable: true,
+        get: function() {
+            return m[k];
+        }
+    };
+    Object.defineProperty(o, k2, desc);
+} : function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+});
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function(o, v) {
+    Object.defineProperty(o, "default", {
+        enumerable: true,
+        value: v
+    });
+} : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = this && this.__importStar || function(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) {
+        for(var k in mod)if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    }
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = this && this.__importDefault || function(mod) {
+    return mod && mod.__esModule ? mod : {
+        "default": mod
+    };
+};
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var TexError_js_1 = __importDefault(require("../TexError.js"));
+var sm = __importStar(require("../SymbolMap.js"));
+var BaseMethods_js_1 = __importDefault(require("../base/BaseMethods.js"));
+var ParseUtil_js_1 = __importDefault(require("../ParseUtil.js"));
+var NewcommandUtil_js_1 = __importDefault(require("./NewcommandUtil.js"));
+var NewcommandMethods = {};
+NewcommandMethods.NewCommand = function(parser, name) {
+    var cs = NewcommandUtil_js_1.default.GetCsNameArgument(parser, name);
+    var n = NewcommandUtil_js_1.default.GetArgCount(parser, name);
+    var opt = parser.GetBrackets(name);
+    var def = parser.GetArgument(name);
+    NewcommandUtil_js_1.default.addMacro(parser, cs, NewcommandMethods.Macro, [
+        def,
+        n,
+        opt
+    ]);
+};
+NewcommandMethods.NewEnvironment = function(parser, name) {
+    var env = ParseUtil_js_1.default.trimSpaces(parser.GetArgument(name));
+    var n = NewcommandUtil_js_1.default.GetArgCount(parser, name);
+    var opt = parser.GetBrackets(name);
+    var bdef = parser.GetArgument(name);
+    var edef = parser.GetArgument(name);
+    NewcommandUtil_js_1.default.addEnvironment(parser, env, NewcommandMethods.BeginEnv, [
+        true,
+        bdef,
+        edef,
+        n,
+        opt
+    ]);
+};
+NewcommandMethods.MacroDef = function(parser, name) {
+    var cs = NewcommandUtil_js_1.default.GetCSname(parser, name);
+    var params = NewcommandUtil_js_1.default.GetTemplate(parser, name, "\\" + cs);
+    var def = parser.GetArgument(name);
+    !(params instanceof Array) ? NewcommandUtil_js_1.default.addMacro(parser, cs, NewcommandMethods.Macro, [
+        def,
+        params
+    ]) : NewcommandUtil_js_1.default.addMacro(parser, cs, NewcommandMethods.MacroWithTemplate, [
+        def
+    ].concat(params));
+};
+NewcommandMethods.Let = function(parser, name) {
+    var cs = NewcommandUtil_js_1.default.GetCSname(parser, name);
+    var c = parser.GetNext();
+    if (c === "=") {
+        parser.i++;
+        c = parser.GetNext();
+    }
+    var handlers = parser.configuration.handlers;
+    if (c === "\\") {
+        name = NewcommandUtil_js_1.default.GetCSname(parser, name);
+        var macro_1 = handlers.get("delimiter").lookup("\\" + name);
+        if (macro_1) {
+            NewcommandUtil_js_1.default.addDelimiter(parser, "\\" + cs, macro_1.char, macro_1.attributes);
+            return;
+        }
+        var map_1 = handlers.get("macro").applicable(name);
+        if (!map_1) return;
+        if (map_1 instanceof sm.MacroMap) {
+            var macro_2 = map_1.lookup(name);
+            NewcommandUtil_js_1.default.addMacro(parser, cs, macro_2.func, macro_2.args, macro_2.symbol);
+            return;
+        }
+        macro_1 = map_1.lookup(name);
+        var newArgs = NewcommandUtil_js_1.default.disassembleSymbol(cs, macro_1);
+        var method = function(p, _cs) {
+            var rest = [];
+            for(var _i = 2; _i < arguments.length; _i++)rest[_i - 2] = arguments[_i];
+            var symb = NewcommandUtil_js_1.default.assembleSymbol(rest);
+            return map_1.parser(p, symb);
+        };
+        NewcommandUtil_js_1.default.addMacro(parser, cs, method, newArgs);
+        return;
+    }
+    parser.i++;
+    var macro = handlers.get("delimiter").lookup(c);
+    if (macro) {
+        NewcommandUtil_js_1.default.addDelimiter(parser, "\\" + cs, macro.char, macro.attributes);
+        return;
+    }
+    NewcommandUtil_js_1.default.addMacro(parser, cs, NewcommandMethods.Macro, [
+        c
+    ]);
+};
+NewcommandMethods.MacroWithTemplate = function(parser, name, text, n) {
+    var params = [];
+    for(var _i = 4; _i < arguments.length; _i++)params[_i - 4] = arguments[_i];
+    var argCount = parseInt(n, 10);
+    if (argCount) {
+        var args = [];
+        parser.GetNext();
+        if (params[0] && !NewcommandUtil_js_1.default.MatchParam(parser, params[0])) throw new TexError_js_1.default("MismatchUseDef", "Use of %1 doesn't match its definition", name);
+        for(var i = 0; i < argCount; i++)args.push(NewcommandUtil_js_1.default.GetParameter(parser, name, params[i + 1]));
+        text = ParseUtil_js_1.default.substituteArgs(parser, args, text);
+    }
+    parser.string = ParseUtil_js_1.default.addArgs(parser, text, parser.string.slice(parser.i));
+    parser.i = 0;
+    ParseUtil_js_1.default.checkMaxMacros(parser);
+};
+NewcommandMethods.BeginEnv = function(parser, begin, bdef, edef, n, def) {
+    if (begin.getProperty("end") && parser.stack.env["closing"] === begin.getName()) {
+        delete parser.stack.env["closing"];
+        var rest = parser.string.slice(parser.i);
+        parser.string = edef;
+        parser.i = 0;
+        parser.Parse();
+        parser.string = rest;
+        parser.i = 0;
+        return parser.itemFactory.create("end").setProperty("name", begin.getName());
+    }
+    if (n) {
+        var args = [];
+        if (def != null) {
+            var optional = parser.GetBrackets("\\begin{" + begin.getName() + "}");
+            args.push(optional == null ? def : optional);
+        }
+        for(var i = args.length; i < n; i++)args.push(parser.GetArgument("\\begin{" + begin.getName() + "}"));
+        bdef = ParseUtil_js_1.default.substituteArgs(parser, args, bdef);
+        edef = ParseUtil_js_1.default.substituteArgs(parser, [], edef);
+    }
+    parser.string = ParseUtil_js_1.default.addArgs(parser, bdef, parser.string.slice(parser.i));
+    parser.i = 0;
+    return parser.itemFactory.create("beginEnv").setProperty("name", begin.getName());
+};
+NewcommandMethods.Macro = BaseMethods_js_1.default.Macro;
+exports.default = NewcommandMethods;
+
+},{"../TexError.js":"dJJ80","../SymbolMap.js":"2S67E","../base/BaseMethods.js":"ltpvG","../ParseUtil.js":"7wSJr","./NewcommandUtil.js":"iKXar"}],"iKXar":[function(require,module,exports) {
+"use strict";
+var __importDefault = this && this.__importDefault || function(mod) {
+    return mod && mod.__esModule ? mod : {
+        "default": mod
+    };
+};
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var ParseUtil_js_1 = __importDefault(require("../ParseUtil.js"));
+var TexError_js_1 = __importDefault(require("../TexError.js"));
+var Symbol_js_1 = require("../Symbol.js");
+var NewcommandUtil;
+(function(NewcommandUtil) {
+    function disassembleSymbol(name, symbol) {
+        var newArgs = [
+            name,
+            symbol.char
+        ];
+        if (symbol.attributes) for(var key in symbol.attributes){
+            newArgs.push(key);
+            newArgs.push(symbol.attributes[key]);
+        }
+        return newArgs;
+    }
+    NewcommandUtil.disassembleSymbol = disassembleSymbol;
+    function assembleSymbol(args) {
+        var name = args[0];
+        var char = args[1];
+        var attrs = {};
+        for(var i = 2; i < args.length; i = i + 2)attrs[args[i]] = args[i + 1];
+        return new Symbol_js_1.Symbol(name, char, attrs);
+    }
+    NewcommandUtil.assembleSymbol = assembleSymbol;
+    function GetCSname(parser, cmd) {
+        var c = parser.GetNext();
+        if (c !== "\\") throw new TexError_js_1.default("MissingCS", "%1 must be followed by a control sequence", cmd);
+        var cs = ParseUtil_js_1.default.trimSpaces(parser.GetArgument(cmd));
+        return cs.substr(1);
+    }
+    NewcommandUtil.GetCSname = GetCSname;
+    function GetCsNameArgument(parser, name) {
+        var cs = ParseUtil_js_1.default.trimSpaces(parser.GetArgument(name));
+        if (cs.charAt(0) === "\\") cs = cs.substr(1);
+        if (!cs.match(/^(.|[a-z]+)$/i)) throw new TexError_js_1.default("IllegalControlSequenceName", "Illegal control sequence name for %1", name);
+        return cs;
+    }
+    NewcommandUtil.GetCsNameArgument = GetCsNameArgument;
+    function GetArgCount(parser, name) {
+        var n = parser.GetBrackets(name);
+        if (n) {
+            n = ParseUtil_js_1.default.trimSpaces(n);
+            if (!n.match(/^[0-9]+$/)) throw new TexError_js_1.default("IllegalParamNumber", "Illegal number of parameters specified in %1", name);
+        }
+        return n;
+    }
+    NewcommandUtil.GetArgCount = GetArgCount;
+    function GetTemplate(parser, cmd, cs) {
+        var c = parser.GetNext();
+        var params = [];
+        var n = 0;
+        var i = parser.i;
+        while(parser.i < parser.string.length){
+            c = parser.GetNext();
+            if (c === "#") {
+                if (i !== parser.i) params[n] = parser.string.substr(i, parser.i - i);
+                c = parser.string.charAt(++parser.i);
+                if (!c.match(/^[1-9]$/)) throw new TexError_js_1.default("CantUseHash2", "Illegal use of # in template for %1", cs);
+                if (parseInt(c) !== ++n) throw new TexError_js_1.default("SequentialParam", "Parameters for %1 must be numbered sequentially", cs);
+                i = parser.i + 1;
+            } else if (c === "{") {
+                if (i !== parser.i) params[n] = parser.string.substr(i, parser.i - i);
+                if (params.length > 0) return [
+                    n.toString()
+                ].concat(params);
+                else return n;
+            }
+            parser.i++;
+        }
+        throw new TexError_js_1.default("MissingReplacementString", "Missing replacement string for definition of %1", cmd);
+    }
+    NewcommandUtil.GetTemplate = GetTemplate;
+    function GetParameter(parser, name, param) {
+        if (param == null) return parser.GetArgument(name);
+        var i = parser.i;
+        var j = 0;
+        var hasBraces = 0;
+        while(parser.i < parser.string.length){
+            var c = parser.string.charAt(parser.i);
+            if (c === "{") {
+                if (parser.i === i) hasBraces = 1;
+                parser.GetArgument(name);
+                j = parser.i - i;
+            } else if (MatchParam(parser, param)) {
+                if (hasBraces) {
+                    i++;
+                    j -= 2;
+                }
+                return parser.string.substr(i, j);
+            } else if (c === "\\") {
+                parser.i++;
+                j++;
+                hasBraces = 0;
+                var match = parser.string.substr(parser.i).match(/[a-z]+|./i);
+                if (match) {
+                    parser.i += match[0].length;
+                    j = parser.i - i;
+                }
+            } else {
+                parser.i++;
+                j++;
+                hasBraces = 0;
+            }
+        }
+        throw new TexError_js_1.default("RunawayArgument", "Runaway argument for %1?", name);
+    }
+    NewcommandUtil.GetParameter = GetParameter;
+    function MatchParam(parser, param) {
+        if (parser.string.substr(parser.i, param.length) !== param) return 0;
+        if (param.match(/\\[a-z]+$/i) && parser.string.charAt(parser.i + param.length).match(/[a-z]/i)) return 0;
+        parser.i += param.length;
+        return 1;
+    }
+    NewcommandUtil.MatchParam = MatchParam;
+    function addDelimiter(parser, cs, char, attr) {
+        var handlers = parser.configuration.handlers;
+        var handler = handlers.retrieve(NewcommandUtil.NEW_DELIMITER);
+        handler.add(cs, new Symbol_js_1.Symbol(cs, char, attr));
+    }
+    NewcommandUtil.addDelimiter = addDelimiter;
+    function addMacro(parser, cs, func, attr, symbol) {
+        if (symbol === void 0) symbol = "";
+        var handlers = parser.configuration.handlers;
+        var handler = handlers.retrieve(NewcommandUtil.NEW_COMMAND);
+        handler.add(cs, new Symbol_js_1.Macro(symbol ? symbol : cs, func, attr));
+    }
+    NewcommandUtil.addMacro = addMacro;
+    function addEnvironment(parser, env, func, attr) {
+        var handlers = parser.configuration.handlers;
+        var handler = handlers.retrieve(NewcommandUtil.NEW_ENVIRONMENT);
+        handler.add(env, new Symbol_js_1.Macro(env, func, attr));
+    }
+    NewcommandUtil.addEnvironment = addEnvironment;
+    NewcommandUtil.NEW_DELIMITER = "new-Delimiter";
+    NewcommandUtil.NEW_COMMAND = "new-Command";
+    NewcommandUtil.NEW_ENVIRONMENT = "new-Environment";
+})(NewcommandUtil || (NewcommandUtil = {}));
+exports.default = NewcommandUtil;
+
+},{"../ParseUtil.js":"7wSJr","../TexError.js":"dJJ80","../Symbol.js":"jX1CW"}],"5DpMI":[function(require,module,exports) {
+"use strict";
+var __extends = this && this.__extends || function() {
+    var extendStatics = function(d, b) {
+        extendStatics = Object.setPrototypeOf || ({
+            __proto__: []
+        }) instanceof Array && function(d, b) {
+            d.__proto__ = b;
+        } || function(d, b) {
+            for(var p in b)if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p];
+        };
+        return extendStatics(d, b);
+    };
+    return function(d, b) {
+        if (typeof b !== "function" && b !== null) throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() {
+            this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+}();
+var __importDefault = this && this.__importDefault || function(mod) {
+    return mod && mod.__esModule ? mod : {
+        "default": mod
+    };
+};
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.BeginEnvItem = void 0;
+var TexError_js_1 = __importDefault(require("../TexError.js"));
+var StackItem_js_1 = require("../StackItem.js");
+var BeginEnvItem = function(_super) {
+    __extends(BeginEnvItem, _super);
+    function BeginEnvItem() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Object.defineProperty(BeginEnvItem.prototype, "kind", {
+        get: function() {
+            return "beginEnv";
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(BeginEnvItem.prototype, "isOpen", {
+        get: function() {
+            return true;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    BeginEnvItem.prototype.checkItem = function(item) {
+        if (item.isKind("end")) {
+            if (item.getName() !== this.getName()) throw new TexError_js_1.default("EnvBadEnd", "\\begin{%1} ended with \\end{%2}", this.getName(), item.getName());
+            return [
+                [
+                    this.factory.create("mml", this.toMml())
+                ],
+                true
+            ];
+        }
+        if (item.isKind("stop")) throw new TexError_js_1.default("EnvMissingEnd", "Missing \\end{%1}", this.getName());
+        return _super.prototype.checkItem.call(this, item);
+    };
+    return BeginEnvItem;
+}(StackItem_js_1.BaseItem);
+exports.BeginEnvItem = BeginEnvItem;
+
+},{"../TexError.js":"dJJ80","../StackItem.js":"hqn3O"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
