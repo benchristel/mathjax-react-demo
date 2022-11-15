@@ -31,8 +31,11 @@ export function App() {
         {/* Outputs */}
         <div style={{fontSize: scale + "em"}}>
             <p>Euler said <Math inline tex="e^{i \pi} = -1"/>, and you know, he was right!</p>
+            <p>
+                Here, "x" should be maroon, and "15" should be teal:
+                {" "}<Math inline tex="\maroonD x = {\color{teal} 15}"/>.
+            </p>
             <Math tex="x = {-b \pm \sqrt{b^2-4ac} \over 2a}"/>
-            <Math tex="{\color{brown} x} = {\color{teal} 15}"/>
             <Math tex={`${ticks} \\times 1000`}/>
             {shown && <Math tex="2 + 2 = 4"/>}
         </div>        
