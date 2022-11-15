@@ -38,7 +38,7 @@ export function App() {
             <Math tex="x = {-b \pm \sqrt{b^2-4ac} \over 2a}"/>
             <Math tex={`${ticks} \\times 1000`}/>
             {shown && <Math tex="2 + 2 = 4"/>}
-        </div>        
+        </div>
     </>
 }
 
