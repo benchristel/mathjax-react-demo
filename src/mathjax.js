@@ -7,10 +7,19 @@ import {SVG} from "mathjax-full/js/output/svg"
 import {browserAdaptor} from "mathjax-full/js/adaptors/browserAdaptor";
 import {RegisterHTMLHandler} from "mathjax-full/js/handlers/html";
 import {AssistiveMmlHandler} from "mathjax-full/js/a11y/assistive-mml"
+import "mathjax-full/js/input/tex/color/ColorConfiguration";
 
 AssistiveMmlHandler(RegisterHTMLHandler(browserAdaptor()))
 
 export const svgFromTex = mathjax.document("", {
-    InputJax: new TeX({}),
+    InputJax: new TeX({
+        // NOTE: Using the `color` package requires importing
+        // mathjax-full/js/input/tex/color/ColorConfiguration first!
+        packages: ["base", "color"],
+        formatError(jax, err) {
+            console.error("Error parsing TeX", jax, err)
+            return jax.formatError(err)
+        },
+    }),
     OutputJax: new SVG({}),
 })
