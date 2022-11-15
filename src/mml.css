@@ -1,0 +1,9 @@
+mjx-assistive-mml {
+    /* Position the assistive markup offscreen, so it is not visible */
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
