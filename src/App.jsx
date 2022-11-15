@@ -16,7 +16,7 @@ export function App() {
 
     return <>
         {/* Inputs */}
-        <label for="scale-input">Font scaling</label>:
+        <label htmlFor="scale-input">Font scaling</label>:
         <input id="scale-input" type="range" value={scale} min="0.5" max="2.5" step="0.1" onInput={(e) => setScale(e.target.value)}></input>
         <span>{scale}</span>
         <br/>
