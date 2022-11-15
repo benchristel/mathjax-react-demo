@@ -1,11 +1,15 @@
 import * as React from "react"
 import {svgFromTex} from "./mathjax"
 
-export const Math = React.memo(({tex}) => {
-    return <Mount dom={svgFromTex.convert(tex)}/>
+export const Math = React.memo(({tex, inline}) => {
+    const containerTag = inline ? "span" : "div"
+    return <Mount
+        containerTag={containerTag}
+        dom={svgFromTex.convert(tex)}
+    />
 })
 
-function Mount({dom}) {
+function Mount({dom, containerTag}) {
     const containerRef = React.useRef(null)
     React.useEffect(() => {
         console.log("updating dom")
@@ -14,6 +18,6 @@ function Mount({dom}) {
             if (containerRef.current) containerRef.current.innerHTML = ""
         }
     }, [dom])
-    return <div ref={containerRef} />
+    return React.createElement(containerTag, {ref: containerRef})
 }
 

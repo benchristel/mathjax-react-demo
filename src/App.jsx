@@ -12,16 +12,14 @@ export function App() {
     // a button. This lets us test what happens when math content
     // is unmounted and remounted.
     const [shown, setShown] = React.useState(false)
+    const [scale, setScale] = React.useState(1.1)
 
-    return <div style={{fontSize: "1.2em"}}>
-        {/* Outputs */}
-        <p>loaded</p>
-        <Math tex="e^{i \pi} = -1"/>
-        <Math tex="x = {-b \pm \sqrt{b^2-4ac} \over 2a}"/>
-        <Math tex={`${ticks} \\times 1000`}/>
-        {shown && <Math tex="2 + 2 = 4"/>}
-
+    return <>
         {/* Inputs */}
+        <label for="scale-input">Font scaling</label>:
+        <input id="scale-input" type="range" value={scale} min="0.5" max="2.5" step="0.1" onInput={(e) => setScale(e.target.value)}></input>
+        <span>{scale}</span>
+        <br/>
         <button onClick={() => setShown(!shown)}>
             {shown ? "Hide" : "Show"} equation
         </button>
@@ -29,7 +27,15 @@ export function App() {
             {ticking ? "Stop" : "Start"} timer
         </button>
         {ticking && <Timer ms={1000} onTick={() => setTicks(ticks + 1)}/>}
-    </div>
+        
+        {/* Outputs */}
+        <div style={{fontSize: scale + "em"}}>
+            <p>Euler said <Math inline tex="e^{i \pi} = -1"/>, and you know, he was right!</p>
+            <Math tex="x = {-b \pm \sqrt{b^2-4ac} \over 2a}"/>
+            <Math tex={`${ticks} \\times 1000`}/>
+            {shown && <Math tex="2 + 2 = 4"/>}
+        </div>        
+    </>
 }
 
 class Timer extends React.Component {
