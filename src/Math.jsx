@@ -3,10 +3,7 @@ import {svgFromTex} from "./mathjax"
 
 export const Math = React.memo(({tex, inline}) => {
     const containerTag = inline ? "span" : "div"
-    return <Mount
-        containerTag={containerTag}
-        dom={svgFromTex.convert(tex)}
-    />
+    return <Mount containerTag={containerTag} dom={svgFromTex.convert(tex)} />
 })
 
 function Mount({dom, containerTag}) {
@@ -20,4 +17,3 @@ function Mount({dom, containerTag}) {
     }, [dom])
     return React.createElement(containerTag, {ref: containerRef})
 }
-
