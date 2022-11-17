@@ -1,9 +1,19 @@
 import * as React from "react"
-import {svgFromTex} from "./mathjax"
+import {svgFromTex, updateStyles} from "./mathjax"
 
 export const Math = React.memo(({tex, inline}) => {
     const containerTag = inline ? "span" : "div"
-    return <Mount containerTag={containerTag} dom={svgFromTex.convert(tex)} />
+
+    React.useEffect(() => {
+        updateStyles()
+    }, [tex, inline])
+
+    return (
+        <Mount
+            containerTag={containerTag}
+            dom={svgFromTex.convert(tex, {display: !inline})}
+        />
+    )
 })
 
 function Mount({dom, containerTag}) {
