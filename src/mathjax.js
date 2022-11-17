@@ -10,8 +10,11 @@ import {browserAdaptor} from "mathjax-full/js/adaptors/browserAdaptor"
 import {RegisterHTMLHandler} from "mathjax-full/js/handlers/html"
 import {AssistiveMmlHandler} from "mathjax-full/js/a11y/assistive-mml"
 import "mathjax-full/js/input/tex/ams/AmsConfiguration"
+import "mathjax-full/js/input/tex/boldsymbol/BoldsymbolConfiguration"
+import "mathjax-full/js/input/tex/cancel/CancelConfiguration"
 import "mathjax-full/js/input/tex/color/ColorConfiguration"
 import "mathjax-full/js/input/tex/configmacros/ConfigMacrosConfiguration"
+import "mathjax-full/js/input/tex/mhchem/MhchemConfiguration"
 
 AssistiveMmlHandler(RegisterHTMLHandler(browserAdaptor()))
 
@@ -21,18 +24,18 @@ export const svgFromTex = mathjax.document("", {
     InputJax: new TeX({
         packages: [
             "base",
-            // NOTE: Using the `ams` package requires importing
-            // mathjax-full/js/input/tex/color/AmsConfiguration first!
+            // NOTE: Use of the packages below requires importing the
+            // corresponding configuration file from
+            // mathjax-full/js/input/tex/*/*Configuration. Those imports
+            // are above.
             // AMS includes the control sequences listed here:
             // https://docs.mathjax.org/en/latest/input/tex/extensions/ams.html#tex-ams-commands
             "ams",
-            // NOTE: Using the `color` package requires importing
-            // mathjax-full/js/input/tex/color/ColorConfiguration first!
+            "boldsymbol",
+            "cancel",
             "color",
-            // NOTE: Using the `configmacros` option requires importing
-            // mathjax-full/js/input/tex/configmacros/ConfigMacrosConfiguration
-            // first!
             "configmacros",
+            "mhchem",
         ],
         // NOTE: Using the `macros` option requires specifying the
         // "configmacros" package in `packages`, above!
