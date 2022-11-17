@@ -47,6 +47,7 @@ export function App() {
                     <Math inline tex="\maroonD x = {\color{teal} 15}" />.
                 </p>
                 <Math tex="x = {-b \pm \sqrt{b^2-4ac} \over 2a}" />
+                <Math tex="\dfrac{4~\text{m}}{6~\text{m}}"/>
                 <Math tex={`${ticks} \\times 1000`} />
                 {shown && <Math tex="2 + 2 = 4" />}
             </div>

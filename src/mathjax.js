@@ -9,6 +9,7 @@ import {CHTML} from "mathjax-full/js/output/chtml"
 import {browserAdaptor} from "mathjax-full/js/adaptors/browserAdaptor"
 import {RegisterHTMLHandler} from "mathjax-full/js/handlers/html"
 import {AssistiveMmlHandler} from "mathjax-full/js/a11y/assistive-mml"
+import "mathjax-full/js/input/tex/ams/AmsConfiguration"
 import "mathjax-full/js/input/tex/color/ColorConfiguration"
 import "mathjax-full/js/input/tex/configmacros/ConfigMacrosConfiguration"
 
@@ -20,6 +21,11 @@ export const svgFromTex = mathjax.document("", {
     InputJax: new TeX({
         packages: [
             "base",
+            // NOTE: Using the `ams` package requires importing
+            // mathjax-full/js/input/tex/color/AmsConfiguration first!
+            // AMS includes the control sequences listed here:
+            // https://docs.mathjax.org/en/latest/input/tex/extensions/ams.html#tex-ams-commands
+            "ams",
             // NOTE: Using the `color` package requires importing
             // mathjax-full/js/input/tex/color/ColorConfiguration first!
             "color",
