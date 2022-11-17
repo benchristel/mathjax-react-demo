@@ -1,0 +1,4 @@
+#!/bin/sh
+
+mkdir -p dist/js/output/chtml/fonts/tex-woff-v2
+cp fonts/* dist/js/output/chtml/fonts/tex-woff-v2/
